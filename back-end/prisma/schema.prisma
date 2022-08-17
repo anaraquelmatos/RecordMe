@@ -83,6 +83,7 @@ model Teacher {
   createdAt            DateTime            @default(now())
   classesNamesTeachers ClasseNameTeacher[]
   attendances          Attendance[]
+  teachersSubjects     TeacherSubject[]
 
   @@map("teachers")
 }
@@ -99,20 +100,41 @@ model Term {
 }
 
 model ClasseNameTeacher {
-  id          Int       @id @default(autoincrement())
-  startDate   String
-  endDate     String
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId Int
-  teacher     Teacher   @relation(fields: [teacherId], references: [id])
-  teacherId   Int
-  term        Term      @relation(fields: [termId], references: [id])
-  termId      Int
-  school      School    @relation(fields: [schoolId], references: [id])
-  schoolId    Int
-  createdAt   DateTime  @default(now())
+  id               Int            @id @default(autoincrement())
+  startDate        String
+  endDate          String
+  className        ClassName      @relation(fields: [classNameId], references: [id])
+  classNameId      Int
+  teacher          Teacher        @relation(fields: [teacherId], references: [id])
+  teacherId        Int
+  term             Term           @relation(fields: [termId], references: [id])
+  termId           Int
+  school           School         @relation(fields: [schoolId], references: [id])
+  schoolId         Int
+  teacherSubject   TeacherSubject @relation(fields: [teacherSubjectId], references: [id])
+  teacherSubjectId Int
+  createdAt        DateTime       @default(now())
 
   @@map("classesNamesTeachers")
+}
+
+model Subject {
+  id               Int              @id @default(autoincrement())
+  name             String           @unique
+  teachersSubjects TeacherSubject[]
+
+  @@map("subjects")
+}
+
+model TeacherSubject {
+  id                   Int                 @id @default(autoincrement())
+  teacher              Teacher             @relation(fields: [teacherId], references: [id])
+  teacherId            Int
+  subject              Subject             @relation(fields: [subjectId], references: [id])
+  subjectId            Int
+  classesNamesTeachers ClasseNameTeacher[]
+
+  @@map("teachersSubjects")
 }
 
 model Student {
