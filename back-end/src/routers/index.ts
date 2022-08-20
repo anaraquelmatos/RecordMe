@@ -1,8 +1,10 @@
 import { Router } from "express";
-import authRouter from "./authRouter.js";
+import schoolRouter from "./schoolRouter.js";
+import teacherRouter from "./teacherRouter.js";
 
 const router = Router();
 
-router.use(authRouter);
+router.use(schoolRouter);
+router.use(teacherRouter);
 
 export default router;
